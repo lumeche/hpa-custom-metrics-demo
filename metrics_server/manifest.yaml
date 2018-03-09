@@ -1,0 +1,21 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: custom-metrics
+  labels:
+    app: custom-metrics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: custom-metrics
+  template:
+    metadata:
+      labels:
+        app: custom-metrics
+    spec:
+      containers:
+      - name: custom-metrics
+        image: lumeche/custom-metrics:latest      
+        ports:
+        - containerPort: 8080
