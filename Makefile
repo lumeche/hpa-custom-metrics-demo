@@ -20,7 +20,7 @@ build_CM:
 		CGO_ENABLED=0 go build -a -tags netgo -o /build/metrics_server github.com/lumeche/metrics_server"
 	cp metrics_server/Dockerfile $(TEMP_DIR)
 	docker build -t $(REGISTRY)/$(CM_IMAGE):$(VERSION) $(TEMP_DIR)
-	#rm -rf $(TEMP_DIR)
+	rm -rf $(TEMP_DIR)
 
 
 push_SS:

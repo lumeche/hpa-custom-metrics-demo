@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: custom-metrics
@@ -19,3 +19,19 @@ spec:
         image: lumeche/custom-metrics:latest      
         ports:
         - containerPort: 8080
+##########################
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: scalable-server
+  labels:
+    app: scalable-server
+spec:
+  type: NodePort
+  ports:
+  - name: web
+    port: 80
+    targetPort: 8080
+  selector:
+    app: scalable-server
