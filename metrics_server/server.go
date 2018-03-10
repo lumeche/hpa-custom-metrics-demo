@@ -36,7 +36,6 @@ func getMetric() (string, float64) {
 	bodyResp, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Printf("Error reading body")
-
 	}
 	log.Printf("server response: %s", bodyResp)
 	hostnameAndTotal := strings.Split(string(bodyResp), ",")
@@ -44,7 +43,7 @@ func getMetric() (string, float64) {
 	total, _ := strconv.ParseFloat(hostnameAndTotal[1], 64)
 	return hostname, total
 
-}	
+}
 
 func generateMetrics() {
 	for true {

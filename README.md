@@ -1,6 +1,13 @@
+# Horizontal Pod Autoscaler based on custom metrics demo
+This is a very simple and minimalistic demo of how the Horizontal pod Autoscaler works in Kubernetes. 
 
 
-##Content
+## Requirements
+1. Having a running k8s
+2. Enable Custom metrics and Horizontal pod autoscaler
+3. A running Prometheus server. In this example it's assumed Prometheus is running next to prometheus adapter. 
+
+## Content
 
 In each of the following two folders there are three files. The actual code of the server, a Dockerfile to build the image and a manifest file to deploy it in k8s
 ### scalable_server
@@ -19,3 +26,7 @@ In the root folder there is a manifest.yaml file that contains the Service Monit
 
 httperf --server 10.33.59.166  --port 28188 --uri /request --num-conns 30   --num-calls 999999 --rate 10
 
+
+
+##TODO
+Reduce the wait times after scaling up and down for the demo.
