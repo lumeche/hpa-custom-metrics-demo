@@ -17,6 +17,8 @@ spec:
       containers:
       - name: custom-metrics
         image: lumeche/custom-metrics:latest      
+        args:
+         - --scalable-server=http://scalable-server:8081
         ports:
         - containerPort: 8080
 ##########################
