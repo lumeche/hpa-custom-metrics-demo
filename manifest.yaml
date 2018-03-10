@@ -16,7 +16,7 @@ spec:
 
 
 #The actual HPA that makes scale the scalable-server.
-################
+---
 kind: HorizontalPodAutoscaler
 apiVersion: autoscaling/v2alpha1
 metadata:
