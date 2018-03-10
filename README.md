@@ -26,11 +26,11 @@ In the root folder there is a manifest.yaml file that contains the Service Monit
 
 ###Command to send traffic to the scalable server. 30 concurent connections
 
-#### 10 channelsx
+#### 10 channels
 ```bash
 httperf --server 10.33.59.166  --port 28188 --uri /request --num-conns 30   --num-calls 999999 --rate 10
 ```
-#### 14 channelsx
+#### 14 channels
 ```bash
 httperf --server 10.33.59.166  --port 28188 --uri /request --num-conns 30   --num-calls 999999 --rate 10
 ```
@@ -43,5 +43,5 @@ watch curl 'http://10.33.59.166:32416/metrics | grep utili'
 watch  kubectl --context cia -n luist get pod
 ```
 
-##TODO
+## TODO
 Reduce the wait times after scaling up and down for the demo.
