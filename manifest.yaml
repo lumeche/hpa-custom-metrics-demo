@@ -5,6 +5,8 @@ metadata:
   labels:
     service-monitor: function
   name: custom-metrics
+  #The namespace for the service monitor needs to be the same where the prometheus operator is located
+  namespace: default
 spec:
   endpoints:
   - port: web

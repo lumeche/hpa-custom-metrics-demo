@@ -1,5 +1,5 @@
 # Horizontal Pod Autoscaler based on custom metrics demo
-This is a very simple and minimalistic demo of how the Horizontal pod Autoscaler works in Kubernetes. 
+This is a very simple and minimalistic demo of how the Horizontal pod Autoscaler works in Kubernetes. This demo is part of a presentation don in the kubernetes Montreal metup
 
 
 ## Requirements
@@ -22,11 +22,26 @@ In the root folder there is a manifest.yaml file that contains the Service Monit
 * The ServiceMonitor tells prometheus that he needs to grab the metrics from the custom_metrics server
 * The HorizontalPodAutoscaler is the ones that tells k8s which component to scale and usign which metric to base from.
 
-##Command to send traffic to the scalable server. 30 concurent connections
+## DEMO
 
+###Command to send traffic to the scalable server. 30 concurent connections
+
+#### 10 channelsx
+```bash
 httperf --server 10.33.59.166  --port 28188 --uri /request --num-conns 30   --num-calls 999999 --rate 10
-
-
+```
+#### 14 channelsx
+```bash
+httperf --server 10.33.59.166  --port 28188 --uri /request --num-conns 30   --num-calls 999999 --rate 10
+```
+### To get the metrics publised by the metric_server
+```bash
+watch curl 'http://10.33.59.166:32416/metrics | grep utili'
+```
+### To get the list pod pods
+```bash
+watch  kubectl --context cia -n luist get pod
+```
 
 ##TODO
 Reduce the wait times after scaling up and down for the demo.
