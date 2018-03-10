@@ -18,13 +18,11 @@ var (
 	addr           = flag.String("listen-address", ":8080", "The address to listen on for HTTP requests.")
 	scalableServer = flag.String("scalable-server", "http://localhost:8081", "The address to listen on for HTTP requests.")
 	metric         = prometheus.NewGauge(prometheus.GaugeOpts{Name: "utilization", Help: "utilization for test server"})
-	totalMap       map[string]float64
 )
 
 func init() {
 	// Register the summary and the histogram with Prometheus's default registry.
 	prometheus.MustRegister(metric)
-	totalMap = make(map[string]float64)
 }
 
 func getMetric() (string, float64) {
@@ -46,25 +44,12 @@ func getMetric() (string, float64) {
 	total, _ := strconv.ParseFloat(hostnameAndTotal[1], 64)
 	return hostname, total
 
-}
+}	
 
-func calculateMaxTotal() float64 {
-	var maxTotal float64
-	for key, value := range totalMap {
-		log.Printf("hostname:%s, total:%f", key, value)
-		if maxTotal < value {
-			maxTotal = value
-		}
-	}
-	log.Printf("maxTotal:%f", maxTotal)
-	return maxTotal
-}
 func generateMetrics() {
 	for true {
-		hostname, total := getMetric()
-		totalMap[hostname] = total
-		maxTotal := calculateMaxTotal()
-		metric.Set(float64(maxTotal))
+		_, total := getMetric()
+		metric.Set(float64(total))
 		time.Sleep(1 * time.Second)
 	}
 }
