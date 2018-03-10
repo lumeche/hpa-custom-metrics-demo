@@ -1,0 +1,41 @@
+#Service monitor to make prometheus grab the metrics from the metrics-server. 
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ServiceMonitor
+metadata:
+  labels:
+    service-monitor: function
+  name: custom-metrics
+spec:
+  endpoints:
+  - port: web
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      app: custom-metrics
+
+
+#The actual HPA that makes scale the scalable-server.
+################
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2alpha1
+metadata:
+  name: demo-hpa
+  namespace: luist
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: scalable-server
+  minReplicas: 1
+  maxReplicas: 100
+  metrics:
+  - type: Object
+    object:
+      target:
+        kind: Service
+        name: custom-metrics
+        #name: toto
+      metricName: utilization 
+      targetValue: 10
+
+
