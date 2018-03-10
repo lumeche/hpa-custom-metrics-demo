@@ -10,7 +10,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/golang/glog"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -32,14 +31,16 @@ func getMetric() (string, float64) {
 	url := *scalableServer + "/total"
 	resp, err := http.Get(url)
 	if err != nil {
-		glog.Errorf("Error %v getting total", err)
+		log.Printf("Error %v getting total", err)
 	}
 	defer resp.Body.Close()
 	//TODO: Rrfactor this
 	bodyResp, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		glog.Error("Error reading body")
+		log.Printf("Error reading body")
+
 	}
+	log.Printf("server response: %s", bodyResp)
 	hostnameAndTotal := strings.Split(string(bodyResp), ",")
 	hostname := hostnameAndTotal[0]
 	total, _ := strconv.ParseFloat(hostnameAndTotal[1], 64)
@@ -49,11 +50,13 @@ func getMetric() (string, float64) {
 
 func calculateMaxTotal() float64 {
 	var maxTotal float64
-	for _, value := range totalMap {
+	for key, value := range totalMap {
+		log.Printf("hostname:%s, total:%f", key, value)
 		if maxTotal < value {
 			maxTotal = value
 		}
 	}
+	log.Printf("maxTotal:%f", maxTotal)
 	return maxTotal
 }
 func generateMetrics() {
@@ -62,7 +65,7 @@ func generateMetrics() {
 		totalMap[hostname] = total
 		maxTotal := calculateMaxTotal()
 		metric.Set(float64(maxTotal))
-		time.Sleep(5 * time.Second)
+		time.Sleep(1 * time.Second)
 	}
 }
 

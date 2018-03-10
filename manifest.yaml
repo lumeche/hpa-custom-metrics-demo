@@ -1,0 +1,42 @@
+kind: ServiceMonitor
+metadata:
+  labels:
+    service-monitor: function
+  name: custom-metrics
+  namespace: default
+spec:
+  endpoints:
+  - port: web
+    path: /prometheus
+  namespaceSelector:
+    matchNames:
+    - luist
+  selector:
+    matchLabels:
+      app: custom-metrics
+
+
+
+################
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2alpha1
+metadata:
+  name: demo-hpa
+  namespace: luist
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: scalable-server
+  minReplicas: 1
+  maxReplicas: 100
+  metrics:
+  - type: Object
+    object:
+      target:
+        kind: Service
+        name: custom-metrics
+        #name: toto
+      metricName: utilization 
+      targetValue: 10
+
+
