@@ -24,9 +24,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: scalable-server
+  name: custom-metrics
   labels:
-    app: scalable-server
+    app: custom-metrics
 spec:
   type: NodePort
   ports:
@@ -34,4 +34,4 @@ spec:
     port: 8080
     targetPort: 8080
   selector:
-    app: scalable-server
+    app: custom-metrics
